@@ -10,20 +10,22 @@ import agente.Puzzle;
 public class Busca<E> {
 	public No<E> estadoInicial;
 	public No<E> estadoObjetivo;
-	public ArrayList<E> borda;
-	public ArrayList<E> caminho;
+	public ArrayList<No<E>> borda;
+	public ArrayList<No<E>> caminho;
 	
 	public Busca(No<E> estadoInicial, No<E> estadoObjetivo) {
 		this.estadoInicial = estadoInicial;
+		this.estadoInicial.setNivel(0);
+		this.estadoInicial.setCusto(0);
 		this.estadoObjetivo = estadoObjetivo;
-		this.borda = new ArrayList<E>();
-		this.caminho = new ArrayList<E>();
+		this.borda = new ArrayList<No<E>>();
+		this.caminho = new ArrayList<No<E>>();
 	}
 
 	public void buscaEmLargura() {
 		No<E> estado = estadoInicial;
 		
-		borda.add((E) estado);
+		borda.add(estado);
 		
 		while(true) {
 			if(((No<E>) borda.get(0)).testeObjetivo() || borda.isEmpty()) {
@@ -34,7 +36,7 @@ public class Busca<E> {
 				No<E> pai = ((No<E>)borda.get(0)).getPai();
 				
 				while(pai != null) {
-					caminho.add((E) pai);
+					caminho.add(pai);
 					pai = pai.getPai();
 				}
 				
@@ -45,7 +47,7 @@ public class Busca<E> {
 				break;
 			}
 			
-			borda.addAll((Collection<? extends E>) ((Puzzle) borda.get(0)).extender());
+			borda.addAll((Collection<? extends No<E>>) borda.get(0).extender());
 			
 			borda.remove(0);
 		}
@@ -55,7 +57,7 @@ public class Busca<E> {
 	public void buscaEmProfundidade() {
 		No<E> estado = estadoInicial;
 		
-		borda.add((E) estado);
+		borda.add(estado);
 		
 		while(true) {
 			if(((No<E>) borda.get(0)).testeObjetivo() || borda.isEmpty()) {
@@ -66,7 +68,7 @@ public class Busca<E> {
 				No<E> pai = ((No<E>)borda.get(0)).getPai();
 				
 				while(pai != null) {
-					caminho.add((E) pai);
+					caminho.add(pai);
 					pai = pai.getPai();
 				}
 				
@@ -76,10 +78,88 @@ public class Busca<E> {
 				
 				break;
 			}
-			borda.addAll(1,(Collection<? extends E>) ((Puzzle) borda.get(0)).extender());
+			borda.addAll(1,(Collection<? extends No<E>>) borda.get(0).extender());
 			borda.remove(0);
 			
-//			estado = (No<E>) borda.get(0);
+		}
+	}
+	
+	public void buscaEmProfundidadeComVisitados() {
+		No<E> estado = estadoInicial;
+		ArrayList<No<E>> visitados = new ArrayList<No<E>>();
+		
+		borda.add(estado);
+		
+		while(true) {
+			if(((No<E>) borda.get(0)).testeObjetivo() || borda.isEmpty()) {
+				System.out.println("Terminou!");
+				
+				caminho.add(borda.get(0));
+				
+				No<E> pai = ((No<E>)borda.get(0)).getPai();
+				
+				while(pai != null) {
+					caminho.add(pai);
+					pai = pai.getPai();
+				}
+				
+				Collections.reverse(caminho);
+				
+				System.out.println("Caminho:");
+				caminho.forEach(n -> {((No) n).print();});
+				System.out.println("Visitados:");
+				visitados.forEach(visitado -> visitado.print());
+				System.out.println("Borda:");
+				borda.forEach(b -> ((No<E>) b).print());
+				
+				break;
+			}
+			
+			ArrayList<No<E>> acoes = (ArrayList<No<E>>) borda.get(0).extender();
+			
+			acoes.forEach(acao -> {
+				if (visitados.contains(acao)) {
+					acoes.remove(acao);
+				}
+			});
+			
+			borda.addAll(1,(Collection<? extends No<E>>) acoes);
+			visitados.add((No<E>) borda.remove(0));
+			
+		}
+	}
+	
+	public void buscaEmProfundidadeLimitada(int limite) {
+		No<E> estado = estadoInicial;
+		
+		borda.add(estado);
+		
+		while(true) {
+			if(((No<E>) borda.get(0)).testeObjetivo() || borda.isEmpty()) {
+				System.out.println("Terminou!");
+				
+				caminho.add(borda.get(0));
+				
+				No<E> pai = ((No<E>)borda.get(0)).getPai();
+				
+				while(pai != null) {
+					caminho.add(pai);
+					pai = pai.getPai();
+				}
+				
+				Collections.reverse(caminho);
+				
+				caminho.forEach(n -> {((No) n).print();});
+				
+				break;
+			}
+			ArrayList<No<E>> acoes = (ArrayList<No<E>>) borda.get(0).extender();
+			
+			if(!acoes.isEmpty() && acoes.get(0).getNivel() <= limite) {				
+				borda.addAll(1,(Collection<? extends No<E>>) borda.get(0).extender());
+			}
+			
+			borda.remove(0);
 		}
 	}
 }

@@ -3,12 +3,10 @@ package agente;
 import java.util.ArrayList;
 
 public class Puzzle extends No{
-//	public char tabuleiro[][];
 	public static final char[][] TABULEIRO_ORGANIZADO = {{' ','1','2'},{'3','4','5'},{'6','7','8'}};
 	
 	public Puzzle(char tabuleiro[][]) {
 		setEstado(tabuleiro);
-//		this.tabuleiro = tabuleiro;
 	}
 	
 	public Puzzle movimentoCima(){
@@ -32,6 +30,8 @@ public class Puzzle extends No{
 		Puzzle result = new Puzzle(tabuleiro);
 		result.setPai(this);
 		result.setEstado(tabuleiro);
+		result.setCusto(result.getPai().getCusto() + 1);
+		result.setNivel(result.getPai().getNivel() + 1);
 		
 		return result;
 	}
@@ -57,6 +57,8 @@ public class Puzzle extends No{
 		Puzzle result = new Puzzle(tabuleiro);
 		result.setPai(this);
 		result.setEstado(tabuleiro);
+		result.setCusto(result.getPai().getCusto() + 1);
+		result.setNivel(result.getPai().getNivel() + 1);		
 		
 		return result;
 	}
@@ -82,6 +84,8 @@ public class Puzzle extends No{
 		Puzzle result = new Puzzle(tabuleiro);
 		result.setPai(this);
 		result.setEstado(tabuleiro);
+		result.setCusto(result.getPai().getCusto() + 1);
+		result.setNivel(result.getPai().getNivel() + 1);
 		
 		return result;
 	}
@@ -107,6 +111,8 @@ public class Puzzle extends No{
 		Puzzle result = new Puzzle(tabuleiro);
 		result.setPai(this);
 		result.setEstado(tabuleiro);
+		result.setCusto(result.getPai().getCusto() + 1);
+		result.setNivel(result.getPai().getNivel() + 1);
 		
 		return result;
 	}
@@ -168,7 +174,7 @@ public class Puzzle extends No{
 	msg += "-------------";
 	msg += "\n| " + estado[0][0] + " | " + estado[0][1] + " | " + estado[0][2] + " |\n";
 	msg += "-------------";
-	msg += "\n| " + estado[1][0] + " | " + estado[1][1] + " | " + estado[1][2] + " |\n";
+	msg += "\n| " + estado[1][0] + " | " + estado[1][1] + " | " + estado[1][2] + " |  No # Nível: " + getNivel() + "; Custo: " + getCusto() + "\n";
 	msg += "-------------" ;
 	msg += "\n| " + estado[2][0] + " | " + estado[2][1] + " | " + estado[2][2] + " |\n";
 	msg += "------------- \n" ;
