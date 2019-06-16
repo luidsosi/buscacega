@@ -48,9 +48,4 @@ public abstract class No<E> {
 	public void setNivel(int nivel) {
 		this.nivel = nivel;
 	}
-
-	public boolean equalsEstado() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

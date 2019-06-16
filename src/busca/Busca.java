@@ -132,20 +132,12 @@ public class Busca<E> {
 			
 			ArrayList<No<E>> acoes = (ArrayList<No<E>>) borda.get(0).extender();
 			
-			acoes.forEach(acao -> {
-				if (!visitados.isEmpty()) {
-					for (int i = 0; i < visitados.size(); i++) {
-						if (visitados.get(i).equalsEstado(acao.getEstado())) {
-							acoes.remove(acao);
-						}
+			visitados.forEach(visitado -> {
+				for (No<E> acao : acoes) {
+					if (visitado.equalsEstado(acao.getEstado())) {
+						acoes.remove(acao);
 					}
-					
-//					visitados.forEach(visitado -> {
-//						if (visitado.equalsEstado(acao.getEstado())) {
-//							acoes.remove(acao);
-//						}
-//					});
-				}
+				}					
 			});
 			
 			borda.addAll(1,(Collection<? extends No<E>>) acoes);
@@ -154,15 +146,15 @@ public class Busca<E> {
 		}
 	}
 	
-	public void buscaEmProfundidadeLimitada(int limite) {
+	public boolean buscaEmProfundidadeLimitada(int limite) {
 		No<E> estado = estadoInicial;
 		
 		borda.add(estado);
 		
 		while(true) {
 			if (borda.isEmpty()) {
-				System.out.println("Soulução não encontrada. \nBorda Vazia.");
-				break;
+				System.out.print("Soulução não encontrada");
+				return false;
 			}
 			
 			if(((No<E>) borda.get(0)).testeObjetivo()) {
@@ -181,8 +173,9 @@ public class Busca<E> {
 				
 				caminho.forEach(n -> {((No) n).print();});
 				
-				break;
+				return true;
 			}
+			
 			ArrayList<No<E>> acoes = (ArrayList<No<E>>) borda.get(0).extender();
 			
 			if(!acoes.isEmpty() && acoes.get(0).getNivel() <= limite) {				
@@ -190,6 +183,16 @@ public class Busca<E> {
 			}
 			
 			borda.remove(0);
+		}
+	}
+	
+	public boolean buscaComAprofundamentoIterativo() {
+		for (int i = 0; true; i++) {
+			if (buscaEmProfundidadeLimitada(i)) {
+				return true;
+			} else {
+				System.out.println(" com limite " + i);
+			}
 		}
 	}
 }
