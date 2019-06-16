@@ -3,6 +3,7 @@ package busca;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 
 import agente.No;
 import agente.Puzzle;
@@ -55,8 +56,7 @@ public class Busca<E> {
 			borda.addAll((Collection<? extends No<E>>) borda.get(0).extender());
 			
 			borda.remove(0);
-		}
-		
+		}		
 	}
 	
 	public void buscaEmProfundidade() {
@@ -193,6 +193,53 @@ public class Busca<E> {
 			} else {
 				System.out.println(" com limite " + i);
 			}
+		}
+	}
+	
+	public void buscaCustoUniforme() {
+		No<E> estado = estadoInicial;
+		
+		borda.add(estado);
+		
+		while(true) {
+			if (borda.isEmpty()) {
+				System.out.println("Soulução não encontrada. \nBorda Vazia.");
+				break;
+			}
+			
+			if(((No<E>) borda.get(0)).testeObjetivo()) {
+				System.out.println("Terminou!");
+				
+				caminho.add(borda.get(0));
+				
+				No<E> pai = ((No<E>)borda.get(0)).getPai();
+				
+				while(pai != null) {
+					caminho.add(pai);
+					pai = pai.getPai();
+				}
+				
+				Collections.reverse(caminho);
+				
+				caminho.forEach(n -> {((No) n).print();});
+				
+				break;
+			}
+			
+			borda.addAll((Collection<? extends No<E>>) borda.get(0).extender());
+			borda.remove(0);
+			
+			borda.sort(new Comparator<No<E>>() {
+				@Override
+				public int compare(No no1, No no2) {
+					if (no1.getCusto() < no2.getCusto())
+			            return -1;
+			        if (no1.getCusto() > no2.getCusto())
+			            return 1;
+					return 0;
+				}
+			});
+			
 		}
 	}
 }

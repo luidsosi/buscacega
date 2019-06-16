@@ -1,8 +1,9 @@
 package agente;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public abstract class No<E> {
+public abstract class No<E> implements Comparator<No>{
 	private No<E> pai;
 	protected E estado;
 	private int custo;
@@ -47,5 +48,14 @@ public abstract class No<E> {
 
 	public void setNivel(int nivel) {
 		this.nivel = nivel;
+	}
+	
+	@Override
+	public int compare(No no1, No no2) {
+		if (no1.getCusto() < no2.getCusto())
+            return -1;
+        if (no1.getCusto() > no2.getCusto())
+            return 1;
+		return 0;
 	}
 }

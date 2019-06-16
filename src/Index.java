@@ -14,9 +14,10 @@ public class Index {
 		char[][] tabuleiro2 = {{' ','1','2'},{'3','4','5'},{'6','7','8'}};
 		Puzzle puzzle = new Puzzle(tabuleiro);
 		
+		
 		Busca<Puzzle> busca = new Busca<Puzzle>(puzzle, new Puzzle(tabuleiro2)); 
 		
-		busca.buscaComAprofundamentoIterativo();
+		busca.buscaCustoUniforme();
 		
 		System.exit(0);
 	}
