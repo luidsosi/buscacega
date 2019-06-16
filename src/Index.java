@@ -16,7 +16,7 @@ public class Index {
 		
 		Busca<Puzzle> busca = new Busca<Puzzle>(puzzle, new Puzzle(tabuleiro2)); 
 		
-		busca.buscaEmLargura();
+		busca.buscaEmProfundidadeComVisitados();
 		
 		System.exit(0);
 	}

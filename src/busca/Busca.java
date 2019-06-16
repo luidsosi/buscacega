@@ -28,7 +28,12 @@ public class Busca<E> {
 		borda.add(estado);
 		
 		while(true) {
-			if(((No<E>) borda.get(0)).testeObjetivo() || borda.isEmpty()) {
+			if (borda.isEmpty()) {
+				System.out.println("Soulução não encontrada. \nBorda Vazia.");
+				break;
+			}
+			
+			if(((No<E>) borda.get(0)).testeObjetivo()) {
 				System.out.println("Terminou!");
 				
 				caminho.add(borda.get(0));
@@ -60,7 +65,12 @@ public class Busca<E> {
 		borda.add(estado);
 		
 		while(true) {
-			if(((No<E>) borda.get(0)).testeObjetivo() || borda.isEmpty()) {
+			if (borda.isEmpty()) {
+				System.out.println("Soulução não encontrada. \nBorda Vazia.");
+				break;
+			}
+			
+			if(((No<E>) borda.get(0)).testeObjetivo()) {
 				System.out.println("Terminou!");
 				
 				caminho.add(borda.get(0));
@@ -91,7 +101,12 @@ public class Busca<E> {
 		borda.add(estado);
 		
 		while(true) {
-			if(((No<E>) borda.get(0)).testeObjetivo() || borda.isEmpty()) {
+			if (borda.isEmpty()) {
+				System.out.println("Soulução não encontrada. \nBorda Vazia.");
+				break;
+			}
+			
+			if(((No<E>) borda.get(0)).testeObjetivo()) {
 				System.out.println("Terminou!");
 				
 				caminho.add(borda.get(0));
@@ -118,8 +133,18 @@ public class Busca<E> {
 			ArrayList<No<E>> acoes = (ArrayList<No<E>>) borda.get(0).extender();
 			
 			acoes.forEach(acao -> {
-				if (visitados.contains(acao)) {
-					acoes.remove(acao);
+				if (!visitados.isEmpty()) {
+					for (int i = 0; i < visitados.size(); i++) {
+						if (visitados.get(i).equalsEstado(acao.getEstado())) {
+							acoes.remove(acao);
+						}
+					}
+					
+//					visitados.forEach(visitado -> {
+//						if (visitado.equalsEstado(acao.getEstado())) {
+//							acoes.remove(acao);
+//						}
+//					});
 				}
 			});
 			
@@ -135,7 +160,12 @@ public class Busca<E> {
 		borda.add(estado);
 		
 		while(true) {
-			if(((No<E>) borda.get(0)).testeObjetivo() || borda.isEmpty()) {
+			if (borda.isEmpty()) {
+				System.out.println("Soulução não encontrada. \nBorda Vazia.");
+				break;
+			}
+			
+			if(((No<E>) borda.get(0)).testeObjetivo()) {
 				System.out.println("Terminou!");
 				
 				caminho.add(borda.get(0));

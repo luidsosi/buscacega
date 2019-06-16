@@ -180,4 +180,20 @@ public class Puzzle extends No{
 	msg += "------------- \n" ;
 	return msg;
 	}
+
+	@Override
+	public boolean equalsEstado(Object estado) {
+		estado = (char [][]) estado;
+		
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (((char [][]) getEstado())[i][j] != ((char [][]) estado)[i][j]) {
+					return false;
+				}
+			}
+		}
+		
+		
+		return true;
+	}	
 }

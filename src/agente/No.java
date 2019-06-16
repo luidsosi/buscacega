@@ -15,6 +15,8 @@ public abstract class No<E> {
 	
 	public abstract void print();
 
+	public abstract boolean equalsEstado(E estado);
+	
 	public No<E> getPai() {
 		return pai;
 	}
@@ -45,5 +47,10 @@ public abstract class No<E> {
 
 	public void setNivel(int nivel) {
 		this.nivel = nivel;
+	}
+
+	public boolean equalsEstado() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
