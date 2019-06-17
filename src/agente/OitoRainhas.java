@@ -1,19 +1,16 @@
 package agente;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
-public class OitoRainhas extends No{	
-	private ArrayList<Rainha> rainhas;
+public class OitoRainhas extends No {
+	
 	private int ultimaColunaComRainha;
 	private boolean diagonalPrincipal[];
 	private boolean diagonalSecundaria[];
 	
 	public OitoRainhas(char [][] tabuleiro) {
-		setEstado(tabuleiro);
+		setEstado(tabuleiro);		
 		
-		rainhas = new ArrayList<Rainha>();
 		ultimaColunaComRainha = -1;
 		diagonalPrincipal = new boolean[15];
 		diagonalSecundaria = new boolean[15];
@@ -57,7 +54,7 @@ public class OitoRainhas extends No{
 		
 		for (int j = 0; j < 8; j++) {
 			boolean valido = true;
-			if (diagonalPrincipal[j + ultimaColunaComRainha + 1] || diagonalSecundaria[j - ultimaColunaComRainha + 7]) {
+			if (diagonalPrincipal[j + ultimaColunaComRainha + 1] || diagonalSecundaria[j - ultimaColunaComRainha + 6]) {
 				valido = false;
 			} else {			
 				//verifica linha
@@ -70,8 +67,37 @@ public class OitoRainhas extends No{
 			}
 			
 			
-			if (valido) {
-				acoes.add(new OitoRainhas(estado.clone(), this, diagonalPrincipal, diagonalSecundaria, j, ultimaColunaComRainha + 1));	
+			if (valido)	{
+				char[][] tabuleiro = new char[8][8];
+				
+				for (int i = 0; i < tabuleiro.length; i++) {
+					for (int k = 0; k < tabuleiro[i].length; k++) {
+						tabuleiro[i][k] = ((char [][])estado)[i][k];
+					}
+				}
+
+				tabuleiro[j][ultimaColunaComRainha + 1] = 'R';
+				
+				boolean [] d1 = new boolean[15];
+				boolean [] d2 = new boolean[15];
+				
+				for (int i = 0; i < d2.length; i++) {
+					d1[i] = diagonalPrincipal[i];
+					d2[i] = diagonalSecundaria[i];
+				}
+				d1[j + ultimaColunaComRainha + 1] = true;
+				d2[j - ultimaColunaComRainha + 6] = true;
+				
+				OitoRainhas acao = new OitoRainhas(tabuleiro); 
+				acao.setPai(this);
+				acao.setNivel(getNivel() + 1);
+				acao.setDiagonalPrincipal(d1);
+				acao.setDiagonalSecundaria(d2);
+				acao.setUltimaColunaComRainha(ultimaColunaComRainha + 1);
+				acoes.add(acao);
+				
+					
+			
 			}	
 		}
 		
@@ -106,7 +132,7 @@ public class OitoRainhas extends No{
 	
 	@Override
 	public boolean testeObjetivo() {
-		return rainhas.size() == 8 ? true: false;
+		return ultimaColunaComRainha == 7 ? true: false;
 	}
 
 	@Override
@@ -143,19 +169,13 @@ public class OitoRainhas extends No{
 			for (int j = 0; j < estado.length; j++) {
 				msg += "| " + estado[i][j] + " ";
 			}
-			msg += "|\n";
+			msg += "|";
+			if (i == 4) msg += " Nivel: " + getNivel();
+			msg += "\n";
 			msg += "---------------------------------";
 		}
 		
 		return msg;
-	}
-
-	public ArrayList<Rainha> getRainhas() {
-		return rainhas;
-	}
-
-	public void setRainhas(ArrayList<Rainha> rainhas) {
-		this.rainhas = rainhas;
 	}
 
 	public int getUltimaColunaComRainha() {
@@ -165,4 +185,21 @@ public class OitoRainhas extends No{
 	public void setUltimaColunaComRainha(int ultimaColunaComRainha) {
 		this.ultimaColunaComRainha = ultimaColunaComRainha;
 	}
+
+	public boolean[] getDiagonalPrincipal() {
+		return diagonalPrincipal;
+	}
+
+	public void setDiagonalPrincipal(boolean[] diagonalPrincipal) {
+		this.diagonalPrincipal = diagonalPrincipal;
+	}
+
+	public boolean[] getDiagonalSecundaria() {
+		return diagonalSecundaria;
+	}
+
+	public void setDiagonalSecundaria(boolean[] diagonalSecundaria) {
+		this.diagonalSecundaria = diagonalSecundaria;
+	}
+	
 }
