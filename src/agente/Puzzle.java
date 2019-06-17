@@ -170,15 +170,18 @@ public class Puzzle extends No{
 	@Override
 	public String toString() {
 		char [][] estado = (char[][]) getEstado();
-	String msg = "";
-	msg += "-------------";
-	msg += "\n| " + estado[0][0] + " | " + estado[0][1] + " | " + estado[0][2] + " |\n";
-	msg += "-------------";
-	msg += "\n| " + estado[1][0] + " | " + estado[1][1] + " | " + estado[1][2] + " |  No # Nível: " + getNivel() + "; Custo: " + getCusto() + "\n";
-	msg += "-------------" ;
-	msg += "\n| " + estado[2][0] + " | " + estado[2][1] + " | " + estado[2][2] + " |\n";
-	msg += "------------- \n" ;
-	return msg;
+		
+		String msg = "";
+		
+		msg += "-------------";
+		msg += "\n| " + estado[0][0] + " | " + estado[0][1] + " | " + estado[0][2] + " |\n";
+		msg += "-------------";
+		msg += "\n| " + estado[1][0] + " | " + estado[1][1] + " | " + estado[1][2] + " |  No # Nível: " + getNivel() + "; Custo: " + getCusto() + "\n";
+		msg += "-------------" ;
+		msg += "\n| " + estado[2][0] + " | " + estado[2][1] + " | " + estado[2][2] + " |\n";
+		msg += "------------- \n" ;
+		
+		return msg;
 	}
 
 	@Override
