@@ -1,6 +1,7 @@
 package agente;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Puzzle extends No{
 	public static final char[][] TABULEIRO_ORGANIZADO = {{' ','1','2'},{'3','4','5'},{'6','7','8'}};
@@ -151,6 +152,8 @@ public class Puzzle extends No{
 		if (movimentoDireita() != null)	movimentosPossiveis.add(movimentoDireita());
 	
 		if (movimentoBaixo() != null) movimentosPossiveis.add(movimentoBaixo());
+		
+		Collections.shuffle(movimentosPossiveis);
 		
 		return movimentosPossiveis.isEmpty() ? null : movimentosPossiveis;
 	}

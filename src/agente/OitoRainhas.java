@@ -1,6 +1,7 @@
 package agente;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class OitoRainhas extends No {
 	
@@ -39,18 +40,10 @@ public class OitoRainhas extends No {
 	
 
 	@Override
-	public ArrayList extender() {
+	public ArrayList<OitoRainhas> extender() {
 		ArrayList<OitoRainhas> acoes = new ArrayList<OitoRainhas>();
 		
-		char[][] estado = ((char [][]) getEstado()).clone();
-		
-		if(ultimaColunaComRainha == -1) {
-			int linha = (int) (Math.random() * 8);
-						
-			acoes.add(new OitoRainhas(estado, this, diagonalPrincipal, diagonalSecundaria, linha, 0));
-			return acoes;
-		}
-		
+		char[][] estado = ((char [][]) getEstado()).clone();		
 		
 		for (int j = 0; j < 8; j++) {
 			boolean valido = true;
@@ -101,33 +94,9 @@ public class OitoRainhas extends No {
 			}	
 		}
 		
+		Collections.shuffle(acoes);
+		
 		return acoes;
-	}
-	
-	public boolean verifica(int row, int col) {
-		char[][] board = (char[][]) getEstado();
-		   //Check Left Upper Diagonal
-		  for (int i = row-1, j = col-1; i >= 0 && j >= 0; i--, j--) {
-		   if(board[i][j] == 1){
-		    return false;
-		   }
-		  }
-		 
-		  //Check Right Upper Diagonal
-		  for (int i = row-1, j = col+1; i >= 0 && j < board.length; i--, j++) {
-		   if(board[i][j] == 1){
-		    return false;
-		   }
-		  }
-		 
-		  //Check in same Column
-		  for (int i = row-1; i >= 0; i--) {
-		   if(board[i][col] == 1){
-		    return false;
-		   }
-		  }
-		 
-		  return true;
 	}
 	
 	@Override

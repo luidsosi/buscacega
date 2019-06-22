@@ -7,23 +7,18 @@ import busca.Busca;
 public class Index {
 
 	public static void main(String[] args) {
+//		Exemplos de teste
 		
-//		char[][] tabuleiro = {{' ','2','3'},{'1','4','6'},{'7','5','8'}};
-//		char[][] tabuleiro = {'2','4','3','7','1','6','5',' ','8'};
-//		char[][] tabuleiro = {{'1','2',' '},{'3','4','5'},{'6','7','8'}};
-//		char[][] tabuleiro = {{'3',' ','2'},{'6','1','5'},{'7','4','8'}};		
-//		char[][] tabuleiro = {{'2','3',' '},{'7','4','1'},{'5','8','6'}};
-		
-//		char[][] tabuleiro2 = {{' ','1','2'},{'3','4','5'},{'6','7','8'}};
+//		char[][] tabuleiro = {{'3','1',' '},{'6','4','2'},{'7','8','5'}};	
+//		
 //		Puzzle puzzle = new Puzzle(tabuleiro);
 //		
+//		puzzle.extender().forEach(n -> n.print());
 //		
-//		Busca<Puzzle> busca = new Busca<Puzzle>(puzzle, new Puzzle(tabuleiro2)); 
-
-//		busca.buscaComAprofundamentoIterativo();
+//		Busca<Puzzle> buscaPuzzle = new Busca<Puzzle>(puzzle); 
 //		
-//		busca.buscaCustoUniforme();
-		
+//		buscaPuzzle.buscaEmLargura();
+				
 		char tabuleiroInicial[][] = {
 				{' ',' ',' ',' ',' ',' ',' ',' '},
 				{' ',' ',' ',' ',' ',' ',' ',' '},
@@ -37,9 +32,9 @@ public class Index {
 		
 		OitoRainhas oitoRainhas = new OitoRainhas(tabuleiroInicial);
 		
-		Busca<OitoRainhas> busca = new Busca<OitoRainhas>(oitoRainhas, oitoRainhas);
+		Busca<OitoRainhas> buscaOitoRainhas = new Busca<OitoRainhas>(oitoRainhas);
 		
-		busca.buscaEmProfundidade();
+		buscaOitoRainhas.buscaCustoUniforme();
 		
 		System.exit(0);
 	}

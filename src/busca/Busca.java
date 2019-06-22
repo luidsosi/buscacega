@@ -14,28 +14,30 @@ public class Busca<E> {
 	public ArrayList<No<E>> borda;
 	public ArrayList<No<E>> caminho;
 	
-	public Busca(No<E> estadoInicial, No<E> estadoObjetivo) {
+	public Busca(No<E> estadoInicial) {
 		this.estadoInicial = estadoInicial;
 		this.estadoInicial.setNivel(0);
 		this.estadoInicial.setCusto(0);
-		this.estadoObjetivo = estadoObjetivo;
 		this.borda = new ArrayList<No<E>>();
 		this.caminho = new ArrayList<No<E>>();
 	}
 
 	public void buscaEmLargura() {
+		System.out.println("Buscando...");
+		long tempoInicial = System.currentTimeMillis();
+		
 		No<E> estado = estadoInicial;
 		
 		borda.add(estado);
 		
 		while(true) {
 			if (borda.isEmpty()) {
-				System.out.println("Soulução não encontrada. \nBorda Vazia.");
+				System.out.println("Solução não encontrada. \nBorda Vazia.");
 				break;
 			}
 			
 			if(((No<E>) borda.get(0)).testeObjetivo()) {
-				System.out.println("Terminou!");
+				System.out.println("Busca terminada! \nCaminho: ");
 				
 				caminho.add(borda.get(0));
 				
@@ -48,8 +50,14 @@ public class Busca<E> {
 				
 				Collections.reverse(caminho);
 				
-				caminho.forEach(n -> {((No) n).print();});
+				caminho.forEach(n -> {((No<E>) n).print();});
 				
+				long tempoFinal = System.currentTimeMillis();
+				
+				long tempoExecucao = tempoFinal - tempoInicial;
+				
+				System.out.println("Tempo de execução: " + tempoExecucao + " ms");
+
 				break;
 			}
 			
@@ -60,18 +68,21 @@ public class Busca<E> {
 	}
 	
 	public void buscaEmProfundidade() {
+		System.out.println("Buscando...");
+		long tempoInicial = System.currentTimeMillis();
+		
 		No<E> estado = estadoInicial;
 		
 		borda.add(estado);
 		
 		while(true) {
 			if (borda.isEmpty()) {
-				System.out.println("Soulução não encontrada. \nBorda Vazia.");
+				System.out.println("Solução não encontrada. \nBorda Vazia.");
 				break;
 			}
 			
 			if(((No<E>) borda.get(0)).testeObjetivo()) {
-				System.out.println("Terminou!");
+				System.out.println("Busca terminada! \nCaminho: ");
 				
 				caminho.add(borda.get(0));
 				
@@ -86,15 +97,24 @@ public class Busca<E> {
 				
 				caminho.forEach(n -> {((No) n).print();});
 				
+				long tempoFinal = System.currentTimeMillis();
+				
+				long tempoExecucao = tempoFinal - tempoInicial;
+				
+				System.out.println("Tempo de execução: " + tempoExecucao + " ms");
+				
 				break;
 			}
-			borda.addAll(1,(Collection<? extends No<E>>) borda.get(0).extender());
-			borda.remove(0);
 			
+			borda.addAll(1,(Collection<? extends No<E>>) borda.get(0).extender());
+			borda.remove(0);			
 		}
 	}
 	
 	public void buscaEmProfundidadeComVisitados() {
+		System.out.println("Buscando...");
+		long tempoInicial = System.currentTimeMillis();
+		
 		No<E> estado = estadoInicial;
 		ArrayList<No<E>> visitados = new ArrayList<No<E>>();
 		
@@ -102,12 +122,12 @@ public class Busca<E> {
 		
 		while(true) {
 			if (borda.isEmpty()) {
-				System.out.println("Soulução não encontrada. \nBorda Vazia.");
+				System.out.println("Solução não encontrada. \nBorda Vazia.");
 				break;
 			}
 			
 			if(((No<E>) borda.get(0)).testeObjetivo()) {
-				System.out.println("Terminou!");
+				System.out.println("Busca terminada! \nCaminho: ");
 				
 				caminho.add(borda.get(0));
 				
@@ -120,25 +140,32 @@ public class Busca<E> {
 				
 				Collections.reverse(caminho);
 				
-				System.out.println("Caminho:");
 				caminho.forEach(n -> {((No) n).print();});
-				System.out.println("Visitados:");
-				visitados.forEach(visitado -> visitado.print());
-				System.out.println("Borda:");
-				borda.forEach(b -> ((No<E>) b).print());
 				
+				long tempoFinal = System.currentTimeMillis();
+				
+				long tempoExecucao = tempoFinal - tempoInicial;
+				
+				System.out.println("Tempo de execução: " + tempoExecucao + " ms");
+	
 				break;
 			}
 			
 			ArrayList<No<E>> acoes = (ArrayList<No<E>>) borda.get(0).extender();
+			ArrayList<No<E>> iguais = new ArrayList<No<E>>();
 			
 			visitados.forEach(visitado -> {
 				for (No<E> acao : acoes) {
 					if (visitado.equalsEstado(acao.getEstado())) {
-						acoes.remove(acao);
+						iguais.add(acao);
 					}
-				}					
+				}
 			});
+			
+			if (!acoes.isEmpty()) {
+				iguais.forEach(igual -> acoes.remove(igual));	
+			}
+			
 			
 			borda.addAll(1,(Collection<? extends No<E>>) acoes);
 			visitados.add((No<E>) borda.remove(0));
@@ -147,18 +174,21 @@ public class Busca<E> {
 	}
 	
 	public boolean buscaEmProfundidadeLimitada(int limite) {
+		System.out.println("Buscando...");
+		long tempoInicial = System.currentTimeMillis();
+		
 		No<E> estado = estadoInicial;
 		
 		borda.add(estado);
 		
 		while(true) {
 			if (borda.isEmpty()) {
-				System.out.print("Soulução não encontrada");
+				System.out.print("Solução não encontrada");
 				return false;
 			}
 			
 			if(((No<E>) borda.get(0)).testeObjetivo()) {
-				System.out.println("Terminou!");
+				System.out.println("Busca terminada! \nCaminho: ");
 				
 				caminho.add(borda.get(0));
 				
@@ -172,6 +202,12 @@ public class Busca<E> {
 				Collections.reverse(caminho);
 				
 				caminho.forEach(n -> {((No) n).print();});
+				
+				long tempoFinal = System.currentTimeMillis();
+				
+				long tempoExecucao = tempoFinal - tempoInicial;
+				
+				System.out.println("Tempo de execução: " + tempoExecucao + " ms");
 				
 				return true;
 			}
@@ -187,8 +223,16 @@ public class Busca<E> {
 	}
 	
 	public boolean buscaComAprofundamentoIterativo() {
+		System.out.println("Buscando...");
+		long tempoInicial = System.currentTimeMillis();
+		
 		for (int i = 0; true; i++) {
 			if (buscaEmProfundidadeLimitada(i)) {
+				long tempoFinal = System.currentTimeMillis();
+				
+				long tempoExecucao = tempoFinal - tempoInicial;
+				
+				System.out.println("Tempo de execução total: " + tempoExecucao + " ms");
 				return true;
 			} else {
 				System.out.println(" com limite " + i);
@@ -197,18 +241,21 @@ public class Busca<E> {
 	}
 	
 	public void buscaCustoUniforme() {
+		System.out.println("Buscando...");
+		long tempoInicial = System.currentTimeMillis();
+		
 		No<E> estado = estadoInicial;
 		
 		borda.add(estado);
 		
 		while(true) {
 			if (borda.isEmpty()) {
-				System.out.println("Soulução não encontrada. \nBorda Vazia.");
+				System.out.println("Solução não encontrada. \nBorda Vazia.");
 				break;
 			}
 			
 			if(((No<E>) borda.get(0)).testeObjetivo()) {
-				System.out.println("Terminou!");
+				System.out.println("Busca terminada! \nCaminho: ");
 				
 				caminho.add(borda.get(0));
 				
@@ -222,6 +269,12 @@ public class Busca<E> {
 				Collections.reverse(caminho);
 				
 				caminho.forEach(n -> {((No) n).print();});
+				
+				long tempoFinal = System.currentTimeMillis();
+				
+				long tempoExecucao = tempoFinal - tempoInicial;
+				
+				System.out.println("Tempo de execução: " + tempoExecucao + " ms");
 				
 				break;
 			}
