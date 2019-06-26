@@ -155,7 +155,7 @@ public class Puzzle extends No{
 		
 		Collections.shuffle(movimentosPossiveis);
 		
-		return movimentosPossiveis.isEmpty() ? null : movimentosPossiveis;
+		return movimentosPossiveis;
 	}
 
 	@Override
